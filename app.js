@@ -81,7 +81,6 @@ App.Product = DS.Model.extend({
   reviews: DS.hasMany('review', { async: true }),
   crafter: DS.belongsTo('contact', { async: true })
 });
-
 App.Product.FIXTURES = [
  {  id: 1,
     title: 'Flint',
