@@ -22,7 +22,7 @@
         </ul>
       </div>
     </div>
-    <div class="container">
+    <div class='container'>
       {{outlet}}
     </div>
     <footer class='container'>
@@ -32,9 +32,9 @@
     </footer>
   </script>
   <script type='text/x-handlebars' data-template-name='index'>
-    <div class="jumbotron">
+    <div class='jumbotron'>
       <h1>Welcome to The Flint &amp; Flame!</h1>
-      <p class="tagline">
+      <p class='tagline'>
         <img {{bind-attr src='logo'}} alt='Logo' />
         Everything you need to make it through the winter.
       </p>
@@ -46,18 +46,7 @@
     </div>
     <div class='row'>
       {{#each onSale}}
-        <div class="col-sm-4">
-          <img {{bind-attr src='image'}} class='img-thumbnail col-sm-5' />
-          <div class="col-sm-7">
-            <h2>{{title}}</h2>
-            <span class="label label-warning">
-              {{#link-to 'products.onsale'}}On Sale{{/link-to}}
-            </span>
-            <p class="product-description">{{description}}</p>
-            <p>{{#link-to 'product' this class='btn btn-success'}}
-              Buy for ${{price}}{{/link-to}}</p>
-          </div>
-        </div>
+      	{{product-details product=this classNames="col-sm-4"}}
       {{/each}}
     </div>
     <p class='pull-right text-muted'>Rendered on {{time}}</p>
@@ -76,12 +65,12 @@
     <h1>Thanks for the Help!</h1>
     <p>This site would not be possible without the hardworking Ember Core Team!</p>
   </script>
-  <script type="text/x-handlebars" data-template-name='products'>
+  <script type='text/x-handlebars' data-template-name='products'>
     <div class='row'>
       <div class='col-sm-3'>
         <div class='list-group'>
-					{{#link-to 'products.onsale'}}On Sale{{/link-to}}
-    		  {{#link-to 'products.deals'}}Deals{{/link-to}}
+          {{#link-to 'products.deals' classNames='list-group-item'}}Deals{{/link-to}}
+          {{#link-to 'products.onsale' classNames='list-group-item'}}On Sale{{/link-to}}
         </div>
         <div class='list-group'>
           {{#each}}
@@ -100,9 +89,10 @@
     <div class='row'>
       <div class='col-sm-7'>
         <h2>{{title}}</h2>
-        <h3 class="text-success">${{price}}</h3>
-        <p class="text-muted">{{description}}</p>
+        <h3 class='text-success'>${{price}}</h3>
+        <p class='text-muted'>{{description}}</p>
         <p>Finely crafted by {{#link-to 'contact' crafter}}{{crafter.name}}{{/link-to}}.</p>
+
         <h3>Reviews</h3>
         <ul>
         {{#each reviews}}
@@ -118,22 +108,14 @@
     </div>
   </script>
   <script type='text/x-handlebars' data-template-name='products/index'>
-    <h1>Todays Product Deals!</h1>
+    <h1>Products!</h1>
     <ul class='list-unstyled'>
       {{#each}}
-        <li class="row">
-          <img {{bind-attr src='image'}} class='img-thumbnail col-sm-5' />
-          <div class="col-sm-7">
-            <h2>{{title}}</h2>
-            <p class="product-description">{{description}}</p>
-            <p>{{#link-to 'product' this class='btn btn-success'}}
-              Buy for ${{price}}{{/link-to}}</p>
-          </div>
-        </li>
+          {{product-details product=this tagName="li" classNames="row"}}
       {{/each}}
     </ul>
   </script>
-  <script type="text/x-handlebars" data-template-name='contacts'>
+  <script type='text/x-handlebars' data-template-name='contacts'>
     <div class='row'>
       <div class='col-sm-9'>
         {{outlet}}
@@ -157,6 +139,7 @@
       <div class='col-sm-7'>
         <h2>{{name}}</h2>
         <p>{{about}}</p>
+
         <h3>Products</h3>
         <ul>
         {{#each products}}
@@ -166,37 +149,30 @@
       </div>
     </div>
   </script>
-  <script type="text/x-handlebars" data-template-name="products/onsale">
+  <script type='text/x-handlebars' data-template-name='products/onsale'>
     <h1>Products On Sale</h1>
     <ul class='list-unstyled'>
       {{#each}}
-        <li class="row">
-          <img {{bind-attr src='image'}} class='img-thumbnail col-sm-5' />
-          <div class="col-sm-7">
-            <h2>{{title}}</h2>
-            <p class="product-description">{{description}}</p>
-            <p>{{#link-to 'product' this class='btn btn-success'}}
-              Buy for ${{price}}{{/link-to}}</p>
-          </div>
-        </li>
+      	{{product-details product=this tagName="li" classNames="row"}}
       {{/each}}
     </ul>
   </script>
-   <script type="text/x-handlebars" data-template-name="products/deals">
-    <h1>Products On Deals</h1>
+  <script type='text/x-handlebars' data-template-name='products/deals'>
+    <h1>Todays Product Deals!</h1>
     <ul class='list-unstyled'>
       {{#each}}
-        <li class="row">
-          <img {{bind-attr src='image'}} class='img-thumbnail col-sm-5' />
-          <div class="col-sm-7">
-            <h2>{{title}}</h2>
-            <p class="product-description">{{description}}</p>
-            <p>{{#link-to 'product' this class='btn btn-success'}}
-              Buy for ${{price}}{{/link-to}}</p>
-          </div>
-        </li>
+      	{{product-details product=this tagName="li" classNames="row"}}
       {{/each}}
     </ul>
+  </script>
+  <script type='text/x-handlebars' data-template-name='components/product-details'>
+    	<img {{bind-attr src='product.image'}} class='img-thumbnail col-sm-5' />
+      <div class='col-sm-7'>
+      	<h2>{{product.title}}</h2>
+        <p class='product-description'>{{product.description}}</p>
+        <p>{{#link-to 'product' product class='btn btn-success'}}
+           	Buy for ${{product.price}}{{/link-to}}</p>
+      </div>
   </script>
 </body>
 </html>
