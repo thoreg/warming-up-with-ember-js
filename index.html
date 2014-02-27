@@ -82,17 +82,23 @@
         <h2>{{title}}</h2>
         <h3 class='text-success'>${{price}}</h3>
         <p class='text-muted'>{{description}}</p>
+        <p>
+          {{#link-to 'contact' crafter}}{{crafter.name}}{{/link-to}}
+
+        </p>
+
+        <h3>Reviews</h3>
+        <ul>
+        {{#each reviews}}
+          <li><p>{{text}}</p></li>
+        {{else}}
+          <li><p class='text-muted'><em>No reviews yet. Be the first to write one!</em></p></li>
+        {{/each}}
+        </ul>
       </div>
       <div class='col-sm-5'>
         <img {{bind-attr src='image'}} class='img-thumbnail img-rounded'/>
       </div>
-      <h3> Reviews</h3>
-      <ul>
-        {{#each review in reviews}}
-	        <li>{{review.text}}</li>
-        {{else}}
-        	No reviews yet
-        {{/each}}
     </div>
   </script>
   <script type='text/x-handlebars' data-template-name='products/index'>
@@ -123,6 +129,15 @@
         <h2>{{name}}</h2>
         <p>{{about}}</p>
       </div>
+      <ul>
+      {{#each product in products}}
+      	{{#link-to 'product' product classNames='list-group-item'}}
+        	{{product.title}}
+        {{/link-to}}
+      {{/each}}
+      </ul>
+
+
     </div>
   </script>
 </body>
