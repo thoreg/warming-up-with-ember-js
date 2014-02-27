@@ -175,6 +175,9 @@
       <p>{{#link-to 'product' product class='btn btn-success'}}
         Buy for ${{product.price}}{{/link-to}}
       </p>
+      {{#if hasReviews}}
+        <p class='text-muted'>Read all reviews ({{reviewsCount}}).</p>
+      {{/if}}
     </div>
   </script>
   <script type='text/x-handlebars' data-template-name='components/contact-details'>
