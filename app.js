@@ -35,11 +35,6 @@ App.ContactsRoute = Ember.Route.extend({
     return this.store.findAll('contact');
   }
 });
-App.ContactRoute = Ember.Route.extend({
-  model: function(params) {
-    return this.store.find('contact', params.contact_id);
-  }
-});
 
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
 App.Product = DS.Model.extend({
@@ -47,8 +42,28 @@ App.Product = DS.Model.extend({
   price: DS.attr('number'),
   description: DS.attr('string'),
   isOnSale: DS.attr('boolean'),
-  image: DS.attr('string')
+  image: DS.attr('string'),
+  reviews: DS.hasMany('review', {async: true})
 });
+App.Review = DS.Model.extend({
+  text: DS.attr('string'),
+  reviewedAt: DS.attr('date'),
+  product: DS.belongsTo('product')
+});
+App.Review.FIXTURES = [
+  {
+    id: 1,
+    product: 1,
+    text: 'Flint is a hard, sedimentary cryptocrystalline form of the mineral quartz, categorized as a variety of chert.',
+    reviewedAt: '2014-02-27',
+  },
+  {
+    id: 2,
+    product: 1,
+    text: 'Easily combustible small sticks or twigs used for starting a fire.',
+    reviewedAt: '2014-02-21'
+  }
+];
 App.Product.FIXTURES = [
   {
     id: 1,
@@ -56,7 +71,8 @@ App.Product.FIXTURES = [
     price: 99,
     description: 'Flint is a hard, sedimentary cryptocrystalline form of the mineral quartz, categorized as a variety of chert.',
     isOnSale: true,
-    image: 'images/products/flint.png'
+    image: 'images/products/flint.png',
+    reviews: [1,2]
   },
   {
     id: 2,
@@ -69,20 +85,19 @@ App.Product.FIXTURES = [
 ];
 
 App.Contact = DS.Model.extend({
-	name: DS.attr('string'),
+  name: DS.attr('string'),
   about: DS.attr('string'),
   avatar: DS.attr('string')
 });
-
 App.Contact.FIXTURES = [
   {
-    id:1,
+    id: 200,
     name: 'Giamia',
     about: 'Although Giamia came from a humble spark of lightning, he quickly grew to be a great craftsman, providing all the warming instruments needed by those close to him.',
     avatar: 'images/contacts/giamia.png'
   },
   {
-    id:2,
+    id: 201,
     name: 'Anostagia',
     about: 'Knowing there was a need for it, Anostagia drew on her experience and spearheaded the Flint & Flame storefront. In addition to coding the site, she also creates a few products available in the store.',
     avatar: 'images/contacts/anostagia.png'

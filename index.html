@@ -86,6 +86,13 @@
       <div class='col-sm-5'>
         <img {{bind-attr src='image'}} class='img-thumbnail img-rounded'/>
       </div>
+      <h3> Reviews</h3>
+      <ul>
+        {{#each review in reviews}}
+	        <li>{{review.text}}</li>
+        {{else}}
+        	No reviews yet
+        {{/each}}
     </div>
   </script>
   <script type='text/x-handlebars' data-template-name='products/index'>
