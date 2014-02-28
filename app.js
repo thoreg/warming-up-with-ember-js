@@ -12,6 +12,12 @@ App.Router.map(function() {
     this.resource('contact', { path: '/:contact_id' });
   });
 });
+Ember.Handlebars.registerBoundHelper('markdown', function(text) {
+ return new Handlebars.SafeString(markdown.toHTML(text));
+});
+Ember.Handlebars.registerBoundHelper('money', function(value) {
+  return accounting.formatMoney(value/100);
+});
 
 App.IndexController = Ember.ArrayController.extend({
   productsCount: Ember.computed.alias('length'),
