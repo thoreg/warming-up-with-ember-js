@@ -99,6 +99,10 @@
       </div>
     </div>
     {{contact-details contact=crafter className='row'}}
+    {{#if text}}
+	    {{text}}
+    {{/if}}
+    {{textarea valueBinding='text'}}
   </script>
   <script type='text/x-handlebars' data-template-name='products/index'>
     <h1>Products!</h1>

@@ -45,6 +45,11 @@ App.ContactProductsController = Ember.ArrayController.extend({
   sortProperties: ['title']
 });
 
+App.ProductController = Ember.ObjectController.extend({
+  text: ''
+});
+
+
 App.ProductsRoute = Ember.Route.extend({
   model: function() {
     return this.store.findAll('product');
