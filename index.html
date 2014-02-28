@@ -5,6 +5,8 @@
   <link href='bootstrap.css' rel='stylesheet' />
   <link href='application.css' rel='stylesheet' />
   <script src='jquery.js'></script>
+  <script src='accounting.js'></script>
+  <script src='markdown.js'></script>
   <script src='handlebars.js'></script>
   <script src='ember.js'></script>
   <script src='ember-data.js'></script>
@@ -93,7 +95,6 @@
         <p class='text-muted'>{{description}}</p>
         <p class='text-muted'>This Product has a {{rating}} star rating!</p>
         <p>Finely crafted by {{#link-to 'contact' crafter}}{{crafter.name}}{{/link-to}}.</p>
-
         {{render 'reviews' reviews}}
         {{#if isNotReviewed}}
           <div class='new-review'>
@@ -202,9 +203,12 @@
     <h3>Reviews</h3>
     <ul>
       {{#each}}
-        <li>
+        {{#view 'App.ReviewView' tagName='li' length=text.length}}
           <div class='content'>{{text}}</div>
-        </li>
+          <span class='expand text-success'>
+            Read {{#if view.isExpanded}}Less{{else}}More{{/if}}
+          </span>
+        {{/view}}
       {{else}}
         <li><p class='text-muted'><em>No reviews yet. Be the first to write one!</em></p></li>
       {{/each}}
