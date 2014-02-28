@@ -37,6 +37,13 @@ App.ContactsController = Ember.ArrayController.extend({
   sortProperties: ['name'],
   contactsCount: Ember.computed.alias('length')
 });
+App.ReviewsController = Ember.ArrayController.extend({
+  sortProperties: ['reviewedAt'],
+  sortAscending: false
+});
+App.ContactProductsController = Ember.ArrayController.extend({
+  sortProperties: ['title']
+});
 
 App.ProductsRoute = Ember.Route.extend({
   model: function() {
