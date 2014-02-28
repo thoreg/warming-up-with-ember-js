@@ -46,24 +46,30 @@ App.ContactProductsController = Ember.ArrayController.extend({
 });
 App.ProductController = Ember.ObjectController.extend({
   text: '',
+  ratings: [1,2,3,4,5],
+  selectedRating: 5,
   actions: {
-    createReview: function() {
-      // Step 1: Build a new Review Object
+    createReview: function(){
       var review = this.store.createRecord('review', {
         text: this.get('text'),
         product: this.get('model'),
         reviewedAt: new Date()
       });
       var controller = this;
-      // Step 2: Save the Review
-      review.save().then(function(review) {
-        // Step 3: Clear out the text variable and show the new entry
+      review.save().then(function() {
         controller.set('text', '');
         controller.get('model.reviews').addObject(review);
       });
-	  }
-  }
+    },
 
+    createRating: function(){
+			var product = this.get('model');
+      var selectedRating = this.get('selectedRating');
+      product.get('ratings').addObject(selectedRating);
+      product.save();
+    }
+
+  }
 });
 
 App.ProductsRoute = Ember.Route.extend({
@@ -125,7 +131,14 @@ App.Product = DS.Model.extend({
   isOnSale: DS.attr('boolean'),
   image: DS.attr('string'),
   reviews: DS.hasMany('review', { async: true }),
-  crafter: DS.belongsTo('contact', { async: true })
+  crafter: DS.belongsTo('contact', { async: true }),
+  ratings: DS.attr(),
+  rating: function(){
+    return this.get('ratings').reduce(function(previousValue, rating) {
+      return previousValue + rating;
+    }, 0) / this.get('ratings').length;
+  }.property('ratings.@each')
+
 });
 
 App.Product.FIXTURES = [
@@ -136,7 +149,8 @@ App.Product.FIXTURES = [
     isOnSale: true,
     image: 'images/products/flint.png',
     reviews: [100,101],
-    crafter: 200
+    crafter: 200,
+    ratings: [2,1,3,3]
   },
   {
     id: 2,
@@ -146,7 +160,8 @@ App.Product.FIXTURES = [
     isOnSale: false,
     image: 'images/products/kindling.png',
     reviews: [],
-    crafter: 201
+    crafter: 201,
+    ratings: [2,1,3,3]
   },
   {
     id: 3,
@@ -156,7 +171,8 @@ App.Product.FIXTURES = [
     isOnSale: true,
     reviews: [],
     image: 'images/products/matches.png',
-    crafter: 201
+    crafter: 201,
+    ratings: [2,1,3,3]
   },
   {
     id: 4,
@@ -166,7 +182,8 @@ App.Product.FIXTURES = [
     isOnSale: false,
     reviews: [],
     image: 'images/products/bow-drill.png',
-    crafter: 200
+    crafter: 200,
+    ratings: [1,3,3]
   },
   {
     id: 5,
@@ -176,7 +193,8 @@ App.Product.FIXTURES = [
     isOnSale: true,
     reviews: [],
     image: 'images/products/tinder.png',
-    crafter: 201
+    crafter: 201,
+    ratings: [2,1,3]
   },
   {
     id: 6,
@@ -186,7 +204,8 @@ App.Product.FIXTURES = [
     isOnSale: true,
     reviews: [],
     image: 'images/products/birch.png',
-    crafter: 201
+    crafter: 201,
+    ratings: [2,3,5]
   }
 ];
 
