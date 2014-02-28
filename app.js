@@ -44,11 +44,27 @@ App.ReviewsController = Ember.ArrayController.extend({
 App.ContactProductsController = Ember.ArrayController.extend({
   sortProperties: ['title']
 });
-
 App.ProductController = Ember.ObjectController.extend({
-  text: ''
-});
+  text: '',
+  actions: {
+    createReview: function() {
+      // Step 1: Build a new Review Object
+      var review = this.store.createRecord('review', {
+        text: this.get('text'),
+        product: this.get('model'),
+        reviewedAt: new Date()
+      });
+      var controller = this;
+      // Step 2: Save the Review
+      review.save().then(function(review) {
+        // Step 3: Clear out the text variable and show the new entry
+        controller.set('text', '');
+        controller.get('model.reviews').addObject(review);
+      });
+	  }
+  }
 
+});
 
 App.ProductsRoute = Ember.Route.extend({
   model: function() {
