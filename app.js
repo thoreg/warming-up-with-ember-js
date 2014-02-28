@@ -61,14 +61,12 @@ App.ProductController = Ember.ObjectController.extend({
         controller.get('model.reviews').addObject(review);
       });
     },
-
-    createRating: function(){
-			var product = this.get('model');
-      var selectedRating = this.get('selectedRating');
+    createRating: function() {
+      var product = this.get('model'),
+          selectedRating = this.get('selectedRating');
       product.get('ratings').addObject(selectedRating);
       product.save();
     }
-
   }
 });
 
@@ -138,7 +136,6 @@ App.Product = DS.Model.extend({
       return previousValue + rating;
     }, 0) / this.get('ratings').length;
   }.property('ratings.@each')
-
 });
 
 App.Product.FIXTURES = [
